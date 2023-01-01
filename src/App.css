@@ -1,0 +1,52 @@
+.navColor{
+    background-color: #02263e;
+}
+
+.textColor{
+    color: white;
+    font-weight: bolder;
+}
+
+.buttonColor{
+    background-color: #2bcbca;
+    color: white;
+    text-shadow: 2rem;
+}
+
+.buttonColor:hover{
+    background-color: #297f91;
+}
+
+.cardWidth{
+    padding-top: 1rem;
+    width: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-bottom: 2rem;
+    padding: 2rem;
+}
+.centering{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: 1.5rem;
+}
+.centeringh{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+.cardsColor{
+    background-color: #02263e;
+}
+
+.centeringFooterCard{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
