@@ -2,22 +2,16 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Cards from './cards.js'
+import useFetch from '../userFetch.js';
+import React, { useState, useEffect } from 'react';
 
-
-function Content() {
+function Content() { 
+    const {data:cards} = useFetch('http://localhost:8000/cards');
     return (
         <Container>
             <Row>
                 <Col className='cardWidth'>
-                    {Cards("Book Title", "Author Name", true)}
-                    {Cards("Book Title", "Author Name", true)}
-                    {Cards("Book Title", "Author Name", false)}
-                    {Cards("Book Title", "Author Name", false)}
-                    {Cards("Book Title", "Author Name", false)}
-                    {Cards("Book Title", "Author Name", false)}
-                    {Cards("Book Title", "Author Name", false)}
-                    {Cards("Book Title", "Author Name", false)}
-                    
+                    {cards && <Cards  cards={cards}  />}
                 </Col>
             </Row>
         </Container>

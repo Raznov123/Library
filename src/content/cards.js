@@ -1,40 +1,78 @@
 import Card from 'react-bootstrap/Card';
 import CloseButton from 'react-bootstrap/CloseButton';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import icon from './pencil.svg'
+import Edit from './edit.js'
 
-const book = {
-  title: 'title',
-  author: 'author',
-  summary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-  read: "unread"
-};
 
-function BgColorExample() {
-  
+function BgColorExample({ cards }) {
+  const [show, setShow] = useState(false);
+  const editButton = () => {
+    setShow(true);
+  }
+  const changeStatus = (card) => {
+    if (card.status == "UnRead") {
+      card.status = "Read"
+      fetch(`http://localhost:8000/cards/${card.id}`, {
+        method: 'PUT',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(card)
+      }).then(() => {
+        window.location.reload();
+      })
+    } else {
+      card.status = "UnRead"
+      fetch(`http://localhost:8000/cards/${card.id}`, {
+        method: 'PUT',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(card)
+      }).then(() => {
+        window.location.reload();
+      })
+    }
+  }
+
+
+  const handleClick = (card) => {
+    fetch('http://localhost:8000/cards/' + card.id, {
+      method: 'DELETE'
+    }).then(() => {
+      window.location.reload();
+    })
+  }
+
+
+
   return (
     <>
-      {[
-        'Primary',
-      ].map((variant) => (
+      {cards.map((card) => (
         <Card
           style={{ width: '18rem' }}
           className="cardsColor"
-        >
+          key={card}
+        > 
           <Card.Header className='centering'>
-            {book.title}
-            <CloseButton className="closeButton" variant="white" />
+          <img  onClick={() => editButton()} className='iconColor'
+                    src={icon}
+                    style={{ fill:"white" }}
+                    alt="Logo"
+                />
+            {card.title}
+            <CloseButton  onClick={() => handleClick(card)} className="closeButton" variant="white" />
           </Card.Header>
           <Card.Body>
-            <Card.Title className='centeringh'> {book.author} </Card.Title>
+            <Card.Title className='centeringh'> {card.author} </Card.Title>
             <Card.Text className='centeringh'>
-              {book.summary}
+              {card.description}
             </Card.Text>
             <Card.Footer>
-              <small className="centeringFooterCard">{book.read}</small>
+              <small  onClick={() => changeStatus(card)} className="centeringFooterCard">{card.status}</small>
+             {show && <Edit card={card} />}
             </Card.Footer>
           </Card.Body>
         </Card>
-      ))}
+      ))} 
+      
     </>
   );
 }

@@ -17,7 +17,7 @@ function Header() {
                     alt="Logo"
                 />
                 <Nav>
-                    <ButtonModal/>
+                    <ButtonModal books/>
                 </Nav>
             </Container>
         </Navbar>
@@ -25,4 +25,3 @@ function Header() {
 }
 
 export default Header;
-

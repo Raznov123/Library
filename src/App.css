@@ -50,3 +50,14 @@
     color: white;
 }
 
+.centeringFooterCard:hover {
+    cursor: pointer;
+}
+
+.iconColor{
+    filter: brightness(0) invert(1);
+}
+
+.iconColor:hover {
+    cursor: pointer;
+}

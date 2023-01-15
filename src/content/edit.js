@@ -5,31 +5,32 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-function ButtonModal() {
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+function Edit(card) {
+
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('');
-    const [cards] = useState([]);
+    const [show, setShow] = useState(true);
+    const handleClose = () => setShow(false);
 
-
-
-    const addBook = () => {
+    const editBook = (card) => {
         if (
             title !== "" ||
             author !== "" ||
             description !== ""
         ) {
-            const newCard = { title, author, description, status };
-            cards.push(newCard);
-            fetch('http://localhost:8000/cards', {
-                method: 'POST',
+            card.card.title = title;
+            card.card.author = author;
+            card.card.description = description;
+            card.card.status = status;
+            fetch(`http://localhost:8000/cards/${card.card.id}`, {
+                method: 'PUT',
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(newCard)
+                body: JSON.stringify(card.card)
             }).then(() => {
+                setShow(false);
+                handleClose(true);
                 window.location.reload();
             })
         }
@@ -43,12 +44,9 @@ function ButtonModal() {
 
     return (
         <div>
-            <Button className='buttonColor' variant="info" size="sm" onClick={handleShow}>
-                Add Book
-            </Button>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Adding a book</Modal.Title>
+                    <Modal.Title>Editing the book</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -78,10 +76,10 @@ function ButtonModal() {
                                 onChange={(e) => setDescription(e.target.value)}
                             />
                         </Form.Group>
-                        <Form.Select 
-                        value={status}
-                        aria-label="Default select example"
-                        onChange={(e) => setStatus(e.target.value)}>
+                        <Form.Select
+                            value={status}
+                            aria-label="Default select example"
+                            onChange={(e) => setStatus(e.target.value)}>
                             <option>Reading status</option>
                             <option value="UnRead">UnRead</option>
                             <option value="Read">Read</option>
@@ -89,13 +87,13 @@ function ButtonModal() {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button  onClick={handleClose} variant="secondary">
                         Close
                     </Button>
                     <Button
                         className='buttonColor'
-                        onClick={() => addBook()}>
-                        Add Book
+                        onClick={() => editBook(card)}>
+                        Edit Book
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -103,5 +101,5 @@ function ButtonModal() {
     );
 }
 
-export default ButtonModal;
+export default Edit;
 
